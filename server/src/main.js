@@ -1,18 +1,21 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import Logger from '../utils/logger';
 
 const app = express();
 const port = 8080;
 
+// setup modules
 app.use(bodyParser.json());
+app.use(morgan('tiny', { stream: Logger.stream }));
 
 app.get('/hello', (req, res) => {
-  console.log('touched');
-  return res.json({
+  res.json({
     message: 'Hello API Server',
   });
 });
 
 app.listen(port, () => {
-  console.log('Express is listening on port', port);
+  Logger.log('info', 'Express is listening on port', port);
 });
